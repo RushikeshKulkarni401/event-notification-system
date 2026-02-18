@@ -3,6 +3,7 @@ package org.poc.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.poc.eventing.model.EventRequest;
 import org.poc.eventing.model.EventResponse;
 import org.poc.eventing.service.EventService;
@@ -32,7 +33,7 @@ public class EventController {
     @ApiResponse(responseCode = "200", description = "Event accepted for processing")
     @PostMapping(produces = "application/json")
     public ResponseEntity<EventResponse> createEvent(
-            @RequestBody EventRequest request) {
+            @Valid @RequestBody EventRequest request) {
         try {
             String eventId = eventService.submitEvent(request);
             return new ResponseEntity<>(
