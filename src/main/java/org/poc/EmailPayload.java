@@ -13,7 +13,4 @@ public class EmailPayload implements EventPayload {
 
     @NotBlank
     private String message;
-
-    @NotBlank
-    private String callBackUrl;
 }

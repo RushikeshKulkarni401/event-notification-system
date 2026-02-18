@@ -17,14 +17,19 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    @PostMapping
+    @PostMapping(produces = "application/json")
     public ResponseEntity<EventResponse> createEvent(
             @RequestBody EventRequest request) {
 
-        String eventId = eventService.submitEvent(request);
-
-        return new ResponseEntity<>(
-                new EventResponse(eventId, "Event accepted for processing."), HttpStatus.OK
-        );
+        try {
+            String eventId = eventService.submitEvent(request);
+            return new ResponseEntity<>(
+                    new EventResponse(eventId, "Event accepted for processing."), HttpStatus.OK
+            );
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    new EventResponse(request.getEventType().toString(), e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }

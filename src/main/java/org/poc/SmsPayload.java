@@ -13,8 +13,5 @@ public class SmsPayload implements EventPayload {
 
     @NotBlank
     private String message;
-
-    @NotBlank
-    private String callBackUrl;
 }
 
