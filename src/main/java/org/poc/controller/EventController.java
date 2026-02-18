@@ -1,5 +1,8 @@
 package org.poc.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.poc.eventing.model.EventRequest;
 import org.poc.eventing.model.EventResponse;
 import org.poc.eventing.service.EventService;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Event API", description = "APIs for creating notification events")
 @RestController
 @RequestMapping("/api/events")
 public class EventController {
@@ -21,10 +25,14 @@ public class EventController {
         this.eventService = eventService;
     }
 
+    @Operation(
+            summary = "Create notification event",
+            description = "Creates EMAIL, SMS, or PUSH notification event"
+    )
+    @ApiResponse(responseCode = "200", description = "Event accepted for processing")
     @PostMapping(produces = "application/json")
     public ResponseEntity<EventResponse> createEvent(
             @RequestBody EventRequest request) {
-
         try {
             String eventId = eventService.submitEvent(request);
             return new ResponseEntity<>(
